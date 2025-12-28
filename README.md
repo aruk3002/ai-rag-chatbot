@@ -1,315 +1,181 @@
-# RAG Chatbot Workshop - 4 Day Course
+# 🧠 AI RAG Chatbot
 
-A full-stack RAG (Retrieval-Augmented Generation) chatbot built with LangChain, Streamlit, FAISS, and Tavily search.
+### Multi-Document Retrieval-Augmented Generation with Optional Real-Time Web Search
 
-## 🎯 Course Overview
+<img width="1864" height="921" alt="Screenshot 2025-12-28 161716" src="https://github.com/user-attachments/assets/49bfa6c5-38e4-4249-b3df-fff7dd678fb9" />
 
-This project is designed for a **4-day workshop** (2 hours per day) teaching RAG application development.
 
-### Day-by-Day Breakdown
+---
 
-| Day | Topic | Files | Key Concepts |
-|-----|-------|-------|--------------|
-| **Day 1** | Foundations & Document Processing | `config/`, `core/document_processor.py` | RAG intro, document loaders, text splitting |
-| **Day 2** | Vector Store & Embeddings | `core/embeddings.py`, `core/vector_store.py` | Embeddings, FAISS, similarity search |
-| **Day 3** | RAG Chain & Tavily Tool | `core/chain.py`, `tools/tavily_search.py` | LLM integration, chains, web search |
-| **Day 4** | Streamlit UI & Integration | `ui/`, `app.py` | Chat interface, streaming, deployment |
+## 📌 Overview
 
-## 🛠️ Tech Stack
+The **AI RAG Chatbot** is a Streamlit-based intelligent assistant that enables users to ask natural-language questions across their own documents using **Retrieval-Augmented Generation (RAG)**.
+The system combines **local semantic search** over uploaded documents with **optional real-time web search**, ensuring responses are both **grounded** and **up-to-date**.
 
-- **LLM**: Groq (FREE - Llama 3.1)
-- **Embeddings**: HuggingFace sentence-transformers (FREE - runs locally)
-- **Vector Store**: FAISS (FREE - runs locally)
-- **Web Search**: Tavily API
-- **UI**: Streamlit
-- **Framework**: LangChain
+This project demonstrates a production-style hybrid RAG architecture using modern LLM tooling and clean software design principles.
 
-## 📁 Project Structure
+---
+
+## 🚀 Key Features
+
+* 📄 **Multi-Document Question Answering**
+  Query multiple uploaded PDF and TXT documents simultaneously.
+
+* 🔍 **Semantic Search with FAISS**
+  High-performance vector similarity search over embedded document chunks.
+
+* 🌐 **Optional Real-Time Web Search**
+  Augment document answers with live web results using Tavily.
+
+* 📚 **Source-Aware Responses**
+  Answers include transparent citations from documents and/or web sources.
+
+* 💬 **Streaming Chat Interface**
+  Token-level response streaming for a smooth conversational experience.
+
+* 🧩 **Modular & Maintainable Architecture**
+  Clear separation of concerns across ingestion, retrieval, generation, and UI.
+
+---
+
+## 🏗️ Architecture Overview
+
+The system follows a **hybrid RAG pipeline**:
+
+1. **Document Ingestion**
+
+   * User uploads PDF/TXT files
+   * Documents are cleaned, chunked, and normalized
+   * Metadata is preserved for traceability
+
+2. **Embedding & Indexing**
+
+   * Text chunks are converted to embeddings using HuggingFace models
+   * FAISS is used as a local vector database
+
+3. **Query Processing**
+
+   * User query triggers semantic retrieval from FAISS
+   * Optional web search is executed for real-time augmentation
+
+4. **Context Assembly**
+
+   * Retrieved document chunks and web snippets are combined
+   * Context is injected into the LLM prompt
+
+5. **Answer Generation**
+
+   * Groq-hosted LLM generates grounded responses
+   * Streaming output is rendered in the UI
+
+---
+
+## 🛠️ Technology Stack
+
+| Component     | Technology                        |
+| ------------- | --------------------------------- |
+| Language      | Python                            |
+| LLM           | Groq (ChatGroq)                   |
+| Embeddings    | HuggingFace Sentence Transformers |
+| Vector Store  | FAISS                             |
+| Web Search    | Tavily                            |
+| UI            | Streamlit                         |
+| Orchestration | LangChain                         |
+
+---
+
+## 📂 Project Structure
 
 ```
-rag-chatbot/
+.
+├── app.py                     # Streamlit entry point
 ├── config/
-│   ├── __init__.py
-│   └── settings.py           # Configuration & API keys
+│   └── settings.py            # Centralized configuration & secrets
 ├── core/
-│   ├── __init__.py
-│   ├── document_processor.py # Document loading & splitting
-│   ├── embeddings.py         # HuggingFace embeddings
-│   ├── vector_store.py       # FAISS operations
-│   └── chain.py              # RAG chain orchestration
+│   ├── document_processor.py  # Document loading & chunking
+│   ├── embeddings.py          # Embedding generation
+│   ├── vector_store.py        # FAISS index management
+│   └── chain.py               # RAG orchestration
 ├── tools/
-│   ├── __init__.py
-│   └── tavily_search.py      # Web search integration
+│   └── tavily_search.py       # Web search integration
 ├── ui/
-│   ├── __init__.py
-│   ├── components.py         # Reusable UI components
-│   └── chat_interface.py     # Chat logic
+│   ├── components.py          # Reusable UI components
+│   └── chat_interface.py      # Chat orchestration logic
 ├── data/
-│   ├── documents/            # Uploaded documents
-│   └── faiss_index/          # Persisted vector index
-├── app.py                    # Main Streamlit app
+│   ├── documents/             # Uploaded documents
+│   └── faiss_index/           # Persisted FAISS index
 ├── requirements.txt
 └── README.md
 ```
 
-## 🚀 Quick Start - Local Development
+---
 
-### Prerequisites
+## ⚙️ Setup & Installation
 
-Install [uv](https://docs.astral.sh/uv/) - A fast Python package installer and resolver:
+### 1️⃣ Clone the Repository
 
-**macOS/Linux:**
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+git clone <your-github-repo-url>
+cd <project-folder>
 ```
 
-**Windows (PowerShell):**
-```powershell
-powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
-```
+### 2️⃣ Create & Activate Virtual Environment
 
-Or use pip:
 ```bash
-pip install uv
-```
-
-### 1. Clone and Setup Environment
-
-**macOS/Linux:**
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd alma-GenAI-Project-AI-Advocate
-
-# Create virtual environment with uv
-uv venv
-
-# Activate virtual environment
-source .venv/bin/activate
-
-# Install dependencies with uv (much faster!)
-uv pip install -r requirements.txt
-```
-
-**Windows (PowerShell):**
-```powershell
-# Clone the repository
-git clone <your-repo-url>
-cd alma-GenAI-Project-AI-Advocate
-
-# Create virtual environment with uv
-uv venv
-
-# Activate virtual environment
+python -m venv .venv
+# Windows
 .venv\Scripts\Activate.ps1
-
-# Install dependencies with uv (much faster!)
-uv pip install -r requirements.txt
+# macOS / Linux
+source .venv/bin/activate
 ```
 
-**Windows (Command Prompt):**
-```cmd
-# Activate virtual environment
-.venv\Scripts\activate.bat
-
-# Install dependencies
-uv pip install -r requirements.txt
-```
-
-### 2. Get API Keys (FREE!)
-
-1. **Groq API Key** (FREE): https://console.groq.com/
-   - Sign up and copy your API key
-2. **Tavily API Key** (FREE tier): https://tavily.com/
-   - Sign up and get your API key
-
-### 3. Configure Environment Variables
-
-**Option A: Using .env file (Recommended for local development)**
+### 3️⃣ Install Dependencies
 
 ```bash
-# Copy example file
-cp .env.example .env
-
-# Edit .env file with your actual keys (NO QUOTES!)
+pip install -r requirements.txt
 ```
 
-Your `.env` should look like this:
-```bash
-GROQ_API_KEY=gsk_your_actual_groq_key_here
-TAVILY_API_KEY=tvly-your_actual_tavily_key_here
-LLM_MODEL=llama-3.3-70b-versatile
-LLM_TEMPERATURE=0.7
+### 4️⃣ Configure Environment Variables
+
+Create a `.env` file in the project root:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+TAVILY_API_KEY=your_tavily_api_key
 ```
 
-⚠️ **IMPORTANT**: 
-- Do NOT use quotes around values
-- Never commit `.env` to git (it's already in `.gitignore`)
+---
 
-**Option B: Using Streamlit Secrets (Also works locally)**
+## ▶️ Running the Application
 
-Create `.streamlit/secrets.toml`:
-```toml
-GROQ_API_KEY = "gsk_your_actual_groq_key_here"
-TAVILY_API_KEY = "tvly-your_actual_tavily_key_here"
-```
-
-### 4. Run the Application
-
-**All Platforms:**
 ```bash
 streamlit run app.py
 ```
+---
 
-The app will open in your browser at `http://localhost:8501`
+## 🧪 Example Use Cases
 
-### 5. Using the Application
+* Ask conceptual questions from research papers or notes
+* Combine internal documents with live web information
+* Perform transparent, citation-aware knowledge retrieval
+* Build a foundation for enterprise knowledge assistants
 
-**Upload Documents:**
-1. Click "Upload PDF Documents" in the sidebar
-2. Upload your PDF files (e.g., legal documents, research papers, etc.)
-3. Wait for processing to complete
+---
 
-**Ask Questions:**
+## 🔍 Evaluation Highlights
 
-Try these example queries:
-- `"What is Personal Liberty: Procedure Established by Law?"`
-- `"Summarize the main points about constitutional rights"`
-- `"Explain the concept of due process"`
-- `"What are the key differences between Article 21 and Article 22?"`
+* Accurate retrieval of relevant document chunks
+* Clear separation between document-based and web-based answers
+* Consistent source attribution
+* Stable performance with multiple documents
 
-**Enable Web Search:**
-- Toggle "Enable Web Search" to combine document knowledge with real-time web results
-- Great for current events or topics not in your documents
+---
 
-## ☁️ Deployment to Streamlit Cloud
+## 🔮 Future Enhancements
 
-### Step 1: Prepare Repository
+* Query intent classification (document vs web vs hybrid)
+* Session-level memory and chat history persistence
+* Support for additional document formats
+* User-selectable LLM models
+* Deployment on Streamlit Cloud or Docker
 
-Make sure your code is in a GitHub repository:
-
-```bash
-# Initialize git (if not already done)
-git init
-
-# Add files (ensure .env is NOT committed!)
-git add .
-git commit -m "Initial commit"
-
-# Push to GitHub
-git remote add origin <your-github-repo-url>
-git push -u origin main
-```
-
-### Step 2: Deploy to Streamlit Cloud
-
-1. Go to [share.streamlit.io](https://share.streamlit.io/)
-2. Click **"New app"**
-3. Sign in with GitHub
-4. Select your repository
-5. Choose branch: `main`
-6. Set main file path: `app.py`
-7. Click **"Deploy"**
-
-### Step 3: Add Secrets in Streamlit Cloud
-
-After deployment:
-
-1. Go to your app's dashboard
-2. Click **"Settings"** → **"Secrets"**
-3. Add your secrets in TOML format:
-
-```toml
-GROQ_API_KEY = "gsk_your_actual_groq_key_here"
-TAVILY_API_KEY = "tvly-your_actual_tavily_key_here"
-```
-
-4. Click **"Save"**
-5. Streamlit will automatically restart your app
-
-### Important Security Notes 🔒
-
-✅ **DO:**
-- Use `.env` for local development
-- Use Streamlit secrets for deployment
-- Keep `.env` in `.gitignore`
-- Rotate keys periodically
-
-❌ **DON'T:**
-- Never commit `.env` or `.streamlit/secrets.toml` to git
-- Never share API keys in code or documentation
-- Never use quotes in `.env` files
-
-## 📖 SOLID Principles Applied
-
-This project follows SOLID principles for maintainable code:
-
-- **S**ingle Responsibility: Each module has one job
-- **O**pen/Closed: Extensible without modifying existing code
-- **L**iskov Substitution: Components can be swapped
-- **I**nterface Segregation: Small, focused interfaces
-- **D**ependency Inversion: Depend on abstractions
-
-## 🎓 Teaching Notes
-
-### Day 1: Foundations
-- Explain RAG architecture (Retrieve → Augment → Generate)
-- Walk through `config/settings.py` - environment variables
-- Deep dive into `core/document_processor.py` - loaders & splitters
-- **Hands-on**: Load and split a sample document
-
-### Day 2: Vector Store
-- Explain embeddings (text → vectors)
-- Show `core/embeddings.py` - HuggingFace models
-- Explain FAISS and similarity search
-- Walk through `core/vector_store.py`
-- **Hands-on**: Create embeddings and search
-
-### Day 3: RAG Chain
-- Explain LLM integration with Groq
-- Walk through `core/chain.py` - prompt templates, chains
-- Show `tools/tavily_search.py` - web search
-- **Hands-on**: Build complete RAG pipeline
-
-### Day 4: UI & Integration
-- Explain Streamlit components
-- Walk through `ui/components.py` and `ui/chat_interface.py`
-- Show `app.py` - putting it all together
-- **Hands-on**: Run the complete application
-
-## � Troubleshooting
-
-### API Key Issues
-
-**Error: "Invalid API Key"**
-- Verify your keys at [Groq Console](https://console.groq.com/) and [Tavily](https://tavily.com/)
-- Make sure there are NO quotes in `.env` file
-- Check if `.streamlit/secrets.toml` has placeholder values (should have real keys or not exist)
-- Restart Streamlit after changing keys
-
-**Error: "GROQ_API_KEY appears to be a placeholder"**
-- Update `.streamlit/secrets.toml` with your actual keys
-- OR delete `.streamlit/secrets.toml` to use `.env` instead
-
-### Installation Issues
-
-**Windows: "uv not found"**
-- Make sure PowerShell execution policy allows scripts: `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`
-- Try installing with pip: `pip install uv`
-
-**macOS: Permission denied**
-- Add execute permissions: `chmod +x ~/.cargo/bin/uv`
-
-### Streamlit Issues
-
-**App not loading**
-- Check if port 8501 is already in use
-- Try: `streamlit run app.py --server.port 8502`
-
-**Secrets not loading**
-- Ensure `.streamlit/secrets.toml` format is valid TOML
-- Restart Streamlit completely (Ctrl+C and run again)
-
-## 📝 License
-
-MIT License - Feel free to use for teaching and learning!
