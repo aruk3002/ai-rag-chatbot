@@ -1,0 +1,28 @@
+# Core LangChain
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-community>=0.3.0
+langchain-text-splitters>=0.3.0
+
+# LLM Provider - Groq (Free)
+langchain-groq>=0.2.0
+
+# Embeddings - HuggingFace (Free)
+langchain-huggingface>=0.1.0
+sentence-transformers>=2.2.0
+
+# Vector Store
+faiss-cpu>=1.7.4
+
+# Tavily Search
+langchain-tavily>=0.1.0
+
+# Document Loaders
+pypdf>=4.0.0
+
+# UI
+streamlit>=1.38.0
+
+# Environment
+python-dotenv>=1.0.0
+watchdog
