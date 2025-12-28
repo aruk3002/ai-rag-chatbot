@@ -2,7 +2,10 @@
 
 ### Multi-Document Retrieval-Augmented Generation with Optional Real-Time Web Search
 
+APP LINK - [https://ai-rag-chatbot-aruk.streamlit.app](https://ai-rag-chatbot-aruk.streamlit.app)
+
 <img width="1864" height="921" alt="Screenshot 2025-12-28 161716" src="https://github.com/user-attachments/assets/49bfa6c5-38e4-4249-b3df-fff7dd678fb9" />
+
 
 
 ---
